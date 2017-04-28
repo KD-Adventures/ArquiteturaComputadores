@@ -8,19 +8,18 @@ end entity;
 architecture a_top_level_b of top_level_tb is
 	
 	component top_level
-		port (	
-			cte_mux_reg_ula	: in unsigned(15 downto 0);
-			sel_mux_reg_ula : in std_logic;
-			sel_op_ula		: in unsigned(1 downto 0);
-			clock			: in std_logic;
-			reset			: in std_logic;
-			write_enable	: in std_logic;
-			sel_reg1		: in unsigned(2 downto 0);
-			sel_reg2		: in unsigned(2 downto 0);
-			sel_write		: in unsigned(2 downto 0);
-			saida_ula 		: out unsigned(15 downto 0);
-			maior_ula		: out std_logic;
-			igual_ula		: out std_logic
+		port (	const_mux_ula		: in unsigned(15 downto 0);
+				selecao_mux_ula 	: in std_logic;
+				sel_operacao_ula	: in unsigned(1 downto 0);
+				clock				: in std_logic;
+				reset				: in std_logic;
+				write_enable		: in std_logic;
+				sel_reg1			: in unsigned(2 downto 0);
+				sel_reg2			: in unsigned(2 downto 0);
+				sel_write			: in unsigned(2 downto 0);
+				saida_ula_top_level	: out unsigned(15 downto 0);
+				maior_ula			: out std_logic;
+				igual_ula			: out std_logic
 		);	
 	end component;
 
@@ -33,10 +32,10 @@ architecture a_top_level_b of top_level_tb is
 	begin
 
 	uut: top_level port map(
-								cte_mux_reg_ula => cte_mux_reg_ula, 
-								saida_ula => saida_ula, 
-								sel_op_ula => sel_op_ula, 
-								sel_mux_reg_ula => sel_mux_reg_ula,
+								const_mux_ula => cte_mux_reg_ula, 
+								saida_ula_top_level => saida_ula, 
+								sel_operacao_ula => sel_op_ula, 
+								selecao_mux_ula => sel_mux_reg_ula,
 								clock => clock, 
 								reset => reset, 
 								write_enable => write_enable, 

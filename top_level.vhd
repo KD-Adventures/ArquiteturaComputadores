@@ -4,32 +4,23 @@ use ieee.numeric_std.all;
 
 
 entity top_level is
-	port (	cte_mux_reg_ula	: in unsigned(15 downto 0);
-			sel_mux_reg_ula : in std_logic;
-			sel_op_ula		: in unsigned(1 downto 0);
-			clock			: in std_logic;
-			reset			: in std_logic;
-			write_enable	: in std_logic;
-			sel_reg1		: in unsigned(2 downto 0);
-			sel_reg2		: in unsigned(2 downto 0);
-			sel_write		: in unsigned(2 downto 0);
-			saida_ula 		: out unsigned(15 downto 0);
-			maior_ula		: out std_logic;
-			igual_ula		: out std_logic
+	port (	const_mux_ula		: in unsigned(15 downto 0);
+			selecao_mux_ula 	: in std_logic;
+			sel_operacao_ula	: in unsigned(1 downto 0);
+			clock				: in std_logic;
+			reset				: in std_logic;
+			write_enable		: in std_logic;
+			sel_reg1			: in unsigned(2 downto 0);
+			sel_reg2			: in unsigned(2 downto 0);
+			sel_write			: in unsigned(2 downto 0);
+			saida_ula_top_level	: out unsigned(15 downto 0);
+			maior_ula			: out std_logic;
+			igual_ula			: out std_logic
 	);
 end entity;
 
 
 architecture a_top_level of top_level is
-
-	component mux2 is
-		port (
-			sel 	: in std_logic;
-			entr0 	: in unsigned(15 downto 0);
-			entr1 	: in unsigned(15 downto 0);
-			saida 	: out unsigned(15 downto 0)
-		);
-	end component;
 
 	component ULA is
 		port (	in_a : in unsigned(15 downto 0);
@@ -54,7 +45,7 @@ architecture a_top_level of top_level is
 		);
 	end component;
 	
-	signal ula_a, ula_b, ula_saida, mux_in : unsigned(15 downto 0);
+	signal ula_in_a, ula_in_b, ula_saida, read_data2 : unsigned(15 downto 0);
 	
 
 begin
@@ -67,26 +58,23 @@ begin
 							sel_reg2 => sel_reg2,
 							sel_write => sel_write, 
 							write_data => ula_saida, 
-							read_data1 => ula_a, 
-							read_data2 => mux_in
+							read_data1 => ula_in_a, 
+							read_data2 => read_data2
 							);
 
-	mux: mux2 port map (
-						sel => sel_mux_reg_ula, 
-						entr0 => mux_in, 
-						entr1 => cte_mux_reg_ula, 
-						saida => ula_b
-						);
-	
 	ula1: ULA port map (
-						in_a => ula_a, 
-						in_b => ula_b, 
-						sel_op => sel_op_ula, 
+						in_a => ula_in_a, 
+						in_b => ula_in_b, 
+						sel_op => sel_operacao_ula, 
 						saida => ula_saida, 
 						maior => maior_ula, 
 						igual => igual_ula
 						);
 	
-	saida_ula <= ula_saida;
+	ula_in_b <= read_data2 when selecao_mux_ula = '0' else
+				const_mux_ula when selecao_mux_ula = '1' else
+				X"0000";
+
+	saida_ula_top_level <= ula_saida;
 
 end architecture;

@@ -1,9 +1,5 @@
-
-ghdl -a mux2.vhd
-ghdl -a mux8.vhd
-ghdl -a demux8.vhd
-ghdl -a reg16bits.vhd
 ghdl -a ULA.vhd
+ghdl -a reg16bits.vhd
 ghdl -a banco.vhd
 ghdl -a top_level.vhd
 ghdl -a top_level_tb.vhd

@@ -1,0 +1,25 @@
+v 4
+file . "top_level_tb.vhd" "c70ebec4d69acb9186ca7e0d01cb441928a28915" "20170428225929.242":
+  entity top_level_tb at 1( 0) + 0 on 73;
+  architecture a_top_level_b of top_level_tb at 8( 106) + 0 on 74;
+file . "banco.vhd" "de380e58b32e6c5667040e5284405c003ea77918" "20170428225929.166":
+  entity banco at 1( 0) + 0 on 69;
+  architecture a_banco of banco at 21( 472) + 0 on 70;
+file . "reg16bits.vhd" "845527a4ff0c7c0b42f015d45dd0263e09cdb20b" "20170428225929.101":
+  entity reg16bits at 1( 0) + 0 on 65;
+  architecture a_reg16bits of reg16bits at 14( 261) + 0 on 66;
+file . "mux8.vhd" "89af6c17082e10ed500016fb91f987592bdb532e" "20170428225928.997":
+  entity mux8 at 1( 0) + 0 on 61;
+  architecture a_mux8 of mux8 at 21( 480) + 0 on 62;
+file . "mux2.vhd" "0d8aeb94a4a11a771517c3056b560495b8aaca3c" "20170428225928.961":
+  entity mux2 at 1( 0) + 0 on 59;
+  architecture a_mux2 of mux2 at 15( 253) + 0 on 60;
+file . "demux8.vhd" "2317afe1f6995e11b427b81c709c3a19f0d3c513" "20170428225929.057":
+  entity demux8 at 1( 0) + 0 on 63;
+  architecture a_demux8 of demux8 at 20( 401) + 0 on 64;
+file . "ULA.vhd" "e6799464cd1bb0d63d1e08dd519637ade5e5e090" "20170428225929.126":
+  entity ula at 1( 0) + 0 on 67;
+  architecture a_ula of ula at 23( 416) + 0 on 68;
+file . "top_level.vhd" "bae31bb2cdc81d410e0f108e6ab63c68af17ab24" "20170428225929.211":
+  entity top_level at 1( 0) + 0 on 71;
+  architecture a_top_level of top_level at 23( 550) + 0 on 72;

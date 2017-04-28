@@ -1,0 +1,22 @@
+[*]
+[*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
+[*] Fri Apr 28 22:58:02 2017
+[*]
+[dumpfile] "/home/kaminski/Aardvark/Arquitetura/PIC16F1618/t.ghw"
+[dumpfile_mtime] "Fri Apr 28 22:57:36 2017"
+[dumpfile_size] 5804
+[savefile] "/home/kaminski/Aardvark/Arquitetura/PIC16F1618/l.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -1 -1
+*0.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.top_level_tb.
+[sst_width] 196
+[signals_width] 142
+[sst_expanded] 1
+[sst_vpaned_height] 150
+@28
+#{top.top_level_tb.sel_write[2:0]} top.top_level_tb.sel_write[2] top.top_level_tb.sel_write[1] top.top_level_tb.sel_write[0]
+[pattern_trace] 1
+[pattern_trace] 0

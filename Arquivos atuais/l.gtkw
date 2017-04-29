@@ -1,0 +1,25 @@
+[*]
+[*] GTKWave Analyzer v3.3.58 (w)1999-2014 BSI
+[*] Sat Apr 29 00:39:42 2017
+[*]
+[dumpfile] "/home/kaminski/Aardvark/Arquitetura/PIC16F1618/Arquivos atuais/t.ghw"
+[dumpfile_mtime] "Sat Apr 29 00:39:22 2017"
+[dumpfile_size] 806
+[savefile] "/home/kaminski/Aardvark/Arquitetura/PIC16F1618/Arquivos atuais/l.gtkw"
+[timestart] 0
+[size] 1366 716
+[pos] -181 -58
+*-27.658566 30700000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.rom_tb.
+[sst_width] 196
+[signals_width] 176
+[sst_expanded] 1
+[sst_vpaned_height] 190
+@22
+#{top.rom_tb.endereco[14:0]} top.rom_tb.endereco[14] top.rom_tb.endereco[13] top.rom_tb.endereco[12] top.rom_tb.endereco[11] top.rom_tb.endereco[10] top.rom_tb.endereco[9] top.rom_tb.endereco[8] top.rom_tb.endereco[7] top.rom_tb.endereco[6] top.rom_tb.endereco[5] top.rom_tb.endereco[4] top.rom_tb.endereco[3] top.rom_tb.endereco[2] top.rom_tb.endereco[1] top.rom_tb.endereco[0]
+#{top.rom_tb.dado[13:0]} top.rom_tb.dado[13] top.rom_tb.dado[12] top.rom_tb.dado[11] top.rom_tb.dado[10] top.rom_tb.dado[9] top.rom_tb.dado[8] top.rom_tb.dado[7] top.rom_tb.dado[6] top.rom_tb.dado[5] top.rom_tb.dado[4] top.rom_tb.dado[3] top.rom_tb.dado[2] top.rom_tb.dado[1] top.rom_tb.dado[0]
+@25
+top.rom_tb.uut.clk
+[pattern_trace] 1
+[pattern_trace] 0

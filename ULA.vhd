@@ -23,7 +23,7 @@ end entity ; -- ULA
 architecture a_ULA of ULA is
 begin
 	saida <= in_a + in_b when sel_op = "00" else
-			 in_a - in_b when sel_op = "01" else
+			 in_b - in_a when sel_op = "01" else
 			 in_a AND in_b when sel_op = "10" else
 			 in_a OR in_b when sel_op = "11" else 
 			 "0000000000000000";

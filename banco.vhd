@@ -8,8 +8,8 @@ entity banco is
 			clk 			: in std_logic;
 			rst 			: in std_logic;
 			write_enable 	: in std_logic;
-			sel_reg1 		: in unsigned (2 downto 0);
-			sel_reg2 		: in unsigned (2 downto 0);
+			sel_regs_1 		: in unsigned (2 downto 0);
+			sel_regs_2 		: in unsigned (2 downto 0);
 			sel_write 		: in unsigned (2 downto 0);
 			write_data 		: in unsigned (15 downto 0);
 			read_data1		: out unsigned (15 downto 0);
@@ -102,24 +102,24 @@ begin
 								data_out 	=> data_out_7
 							);
 
-	read_data1 <= 	data_out_0 when sel_reg1 = "000" else
-					data_out_1 when sel_reg1 = "001" else
-					data_out_2 when sel_reg1 = "010" else
-					data_out_3 when sel_reg1 = "011" else
-					data_out_4 when sel_reg1 = "100" else
-					data_out_5 when sel_reg1 = "101" else
-					data_out_6 when sel_reg1 = "110" else
-					data_out_7 when sel_reg1 = "111" else
+	read_data1 <= 	data_out_0 when sel_regs_1 = "000" else
+					data_out_1 when sel_regs_1 = "001" else
+					data_out_2 when sel_regs_1 = "010" else
+					data_out_3 when sel_regs_1 = "011" else
+					data_out_4 when sel_regs_1 = "100" else
+					data_out_5 when sel_regs_1 = "101" else
+					data_out_6 when sel_regs_1 = "110" else
+					data_out_7 when sel_regs_1 = "111" else
 					x"0000";
 
-	read_data2 <= 	data_out_0 when sel_reg2 = "000" else
-					data_out_1 when sel_reg2 = "001" else
-					data_out_2 when sel_reg2 = "010" else
-					data_out_3 when sel_reg2 = "011" else
-					data_out_4 when sel_reg2 = "100" else
-					data_out_5 when sel_reg2 = "101" else
-					data_out_6 when sel_reg2 = "110" else
-					data_out_7 when sel_reg2 = "111" else
+	read_data2 <= 	data_out_0 when sel_regs_2 = "000" else
+					data_out_1 when sel_regs_2 = "001" else
+					data_out_2 when sel_regs_2 = "010" else
+					data_out_3 when sel_regs_2 = "011" else
+					data_out_4 when sel_regs_2 = "100" else
+					data_out_5 when sel_regs_2 = "101" else
+					data_out_6 when sel_regs_2 = "110" else
+					data_out_7 when sel_regs_2 = "111" else
 					x"0000";
 
 end architecture ; -- a_banco

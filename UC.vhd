@@ -7,15 +7,17 @@ entity UC is
 			clk 					: in std_logic;
 			rst	 					: in std_logic;
 			uc_instruction			: in unsigned(13 downto 0);
-			uc_jump 				: out std_logic;
+            uc_bit_is_set    	    : in std_logic;
+            uc_pc_sel               : out unsigned (1 downto 0);
 			uc_pc_update			: out std_logic;
-			uc_Banco_update 		: out std_logic;
+			uc_Ram_update 			: out std_logic;
 			uc_Acumulador_update  	: out std_logic;
-			uc_sel_ula_entrada_A	: out unsigned (1 downto 0);
-			uc_sel_ula_entrada_B	: out unsigned (1 downto 0);
-			uc_ula_op				: out unsigned (1 downto 0);
-			uc_estado 				: out unsigned (1 downto 0)
-
+			uc_InstrReg_update  	: out std_logic;
+			uc_FSR_update 			: out std_logic;
+			uc_sel_ula_entrada_A	: out std_logic;
+			uc_ula_op				: out unsigned (2 downto 0);
+			uc_estado 				: out unsigned (1 downto 0);
+			uc_sel_ram_address 		: out std_logic
 	);
 end entity;
 
@@ -29,13 +31,23 @@ architecture a_UC of UC is
 		);
 	end component;
 
-	signal opcode_1 	: unsigned(1 downto 0);
-	signal opcode_2 	: unsigned(3 downto 0);
-	signal estado_s 	: unsigned (1 downto 0);
-	signal campo 		: std_logic;
-	signal uc_reg_wr_en : std_logic;
-	signal uc_w_write	: std_logic;
-	signal campo_d		: std_logic;
+    type INSTRUCTION_LIST is
+        (MOVLW, MOVWF, MOVF, ADDWF, SUBLW, GOTO, BRA, BTFSS, BTFSC, MOVIWk, MOVWIk, NOP);
+
+    signal opcode_1 		: unsigned (1 downto 0);
+	signal opcode_2 		: unsigned (3 downto 0);
+	signal estado_s 		: unsigned (1 downto 0);
+	signal campo 			: std_logic;
+	signal uc_ram_wr_en 	: std_logic;
+	signal w_write 	 		: std_logic;
+	signal field_d			: std_logic;
+	signal Z_affected	 	: std_logic;
+	signal C_affected		: std_logic;
+    signal instruction      : INSTRUCTION_LIST;
+    signal skip_this_instr  : std_logic;
+    signal skip_next_instr  : std_logic;
+    signal fsr_write 		: std_logic;
+    signal fsr_select 		: std_logic;
 
 begin
 
@@ -47,43 +59,48 @@ begin
 
 
 	
--- Instruções para implementar
+-- Instruções 
 	--MOVLW	k		11 0000 kkkk kkkk
 	--MOVWF f 		00 0000	1fff ffff 
 	--MOVF f,d 		00 1000 dfff ffff 
 	--ADDWF f,d 	00 0111 dfff ffff
-	--SUBLW k 		11 1100 kkkk kkkk 
+	--SUBLW k 		11 1100 kkkk kkkk
+	--BTFSC f,b 	01 10bb bfff ffff
+	--BTFSS f,b  	01 11bb bfff ffff 
 	--GOTO k 		10 1kkk kkkk kkkk
+	--BRA k 		11 001k kkkk kkkk
 	--NOP			00 0000 0000 0000
 
+--Não implementadas
+	--BRW 			00 0000 0000 1011
+	--BCF f,b 		01 00bb bfff ffff
+	--BSF f,b 		01 01bb bfff ffff
+	
+--	
 
 -- Sinais utilizados por cada instrução
 	-- MOVLW k
-		-- seleciona a rom em uc_sel_ula_entrada_B para pegar a constante da instrução
-		-- seleciona o valor 0 do registrador em uc_sel_ula_entrada_A 
-		-- Soma a contante k, da instrução, com o 0 do registrador, uc_ula_op
+		-- seleciona a rom em uc_sel_ula_entrada_A para pegar a constante da instrução
+		-- Seleciona a opção passa A da ULA em uc_ula_op, 000
 		-- Habilita a escrita no Acumulador, uc_w_write
 
 	-- MOVWF f
-		-- seleciona o 0 do banco em uc_sel_ula_entrada_A
-		-- soma 0 com o valor do acumulador
-		-- habilita a escrita do banco em uc_reg_wr_en
+		-- Seleciona a opção passa B da ULA, 001, em uc_ula_op
+		-- habilita a escrita do banco em uc_ram_wr_en
 
 	--MOVF f,d
-		-- Seleciona 0 do Banco em uc_sel_ula_entrada_A
-		-- Seleciona o f do Banco em uc_sel_ula_entrada_B
-		-- Soma f com 0 em uc_ula_op
+		-- Seleciona a opção passa A da ULA, 000, em uc_ula_op
 		-- Quando d = 0
 			-- habilita a escrita no Acumulador, uc_w_write
 		-- QUando d = 1
-			-- habilita a escrita no Banco, uc_reg_wr_en
+			-- habilita a escrita no Banco, uc_ram_wr_en
 
 	--ADDWF f,d
 		-- Soma o valor de f com o Acumulador, uc_ula_op
 		-- Quando d = 0
 			-- habilita a escrita no Acumulador, uc_w_write
 		-- Quando d = 1
-			-- habilita a escrita no Banco, uc_reg_wr_en
+			-- habilita a escrita no Banco, uc_ram_wr_en
 
 	--SUBLW k
 		-- Subtrai o valor k com o valor do Acumulador (k - A), uc_ula_op
@@ -94,83 +111,202 @@ begin
 
 	-- NOP
 		-- Não faz nada
+--
 
 -- nomenclaturas
---	uc_reg_wr_en : 	habilita a escrita no registrador
---	uc_w_write : 		habilita que o acumulador realize a leitura do dado na entrada
---	uc_sel_ula_entrada_B :  		seletor para o mux de uma das entradas da Ula, 0 seleciona o acumulador e 1 seleciona o dado da rom 
---	uc_ula_op 		: 		seleciona a operação da ULA
--- 	uc_sel_ula_entrada_A : 		seleciona qual das saidas do banco de registradores vai para a Ula
---	uc_jump :  		indica se a instrução é de salto e indica para o pc
---	uc_jump_address: 	indica para qual endereço vai o pc
-
+	--	uc_ram_wr_en 		: habilita a escrita no registrador
+	--	w_write 	 		: habilita que o acumulador realize a leitura do dado na entrada
+	--	uc_sel_ula_entrada_B: seletor para o mux de uma das entradas da Ula, 0 seleciona o acumulador e 1 seleciona o dado da rom 
+	--	uc_ula_op 			: seleciona a operação da ULA
+	-- 	uc_sel_ula_entrada_A: seleciona qual das saidas do banco de registradores vai para a Ula
+	--	uc_jump 			: indica se a instrução é de salto e indica para o pc
+	--	uc_jump_address		: indica para qual endereço vai o pc
+--
 
 	opcode_1 	<= uc_instruction(13 downto 12);
 	opcode_2 	<= uc_instruction(11 downto 8);
-	campo 		<= uc_instruction(7);
-	campo_d		<= uc_instruction(11);
+	field_d		<= uc_instruction(7);
 
-	-- caso seja MOVF com d=1, MOVWF, ADDWF com d=1
-	uc_reg_wr_en <=	'1' when opcode_1 = "00" AND opcode_2 = "1000" AND campo = '1' else
-					'1' when opcode_1 = "00" AND opcode_2 = "0000" else
-					'1' when opcode_1 = "00" AND opcode_2 = "0111" AND campo = '1' else
+-- Determina a instrução
+
+    instruction     <=  NOP     when skip_this_instr = '1' else
+    					MOVLW   when opcode_1 = "11" AND opcode_2 = "0000"                              else
+						MOVWF   when opcode_1 = "00" AND opcode_2 = "0000" and uc_instruction(7) = '1'  else  
+						MOVF    when opcode_1 = "00" AND opcode_2 = "1000"                              else
+						ADDWF   when opcode_1 = "00" AND opcode_2 = "0111"                              else
+						SUBLW   when opcode_1 = "11" AND opcode_2 = "1100"                              else
+						GOTO    when opcode_1 = "10" AND uc_instruction(11) = '1'                       else
+						BRA     when opcode_1 = "11" AND uc_instruction(11 downto 9) = "001"            else
+						BTFSS 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "11"			else
+						BTFSC 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "10"			else
+						MOVIWk	when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '0' else
+						MOVWIk when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '1' else
+						NOP;
+
+	fsr_select <= 	'1' when uc_instruction (7 downto 0) = B"1000_0000" else
 					'0';
-	
 
-	-- caso seja MOVLW, MOVF com d=0, ADDWF com d=0, SUBLW
-	uc_w_write	<= 	'1' when opcode_1 = "11" AND opcode_2 = "0000" else
-					'1' when opcode_1 = "00" AND opcode_2 = "1000" AND campo = '0' else
-					'1' when opcode_1 = "00" AND opcode_2 = "0111" AND campo = '0' else
-					'1' when opcode_1 = "11" AND opcode_2 = "1100" else
-					'0';
-	
-	-- vai para o mux que seleciona entre o valor 0, o valor da rom e o do acumulador, MOVLW, GOTO			
-	uc_sel_ula_entrada_B <=	"01" when opcode_1 = "11" AND opcode_2 = "0000" else
-							"00" when opcode_1 = "00" AND opcode_2 = "1000" else
-							"10" when opcode_1 = "11" AND opcode_2 = "1100" else
-							"10";
+	process(estado_s, instruction)
+		begin
+			case estado_s is
+				when "00" =>
+					uc_pc_update 			<= '1';
+					uc_InstrReg_update 		<= '1';
+					uc_Ram_update 			<= '0';
+					uc_Acumulador_update 	<= '0';
+					--uc_estado <= estado_s;
+					--skip_next_instr 		<= '0';
+				when "01" =>
+
+					case instruction is
+						when MOVLW =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '1';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '1';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+						when MOVWF =>
+							uc_ram_wr_en		    <= '1';
+							w_write                 <= '0';
+							uc_ula_op               <= "001";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";           
+							skip_next_instr         <= '0';
+							fsr_write 				<= fsr_select;
+							uc_sel_ram_address		<= '0';
+						when MOVF =>
+							uc_ram_wr_en		    <= field_d;
+							w_write                 <= not field_d;
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= fsr_select;
+							uc_sel_ram_address		<= '0';
+						when ADDWF =>
+							uc_ram_wr_en		    <= field_d;
+							w_write                 <= not field_d;
+							uc_ula_op               <= "010";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= fsr_select;
+							uc_sel_ram_address		<= '0';
+						when SUBLW =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '1';
+							uc_ula_op               <= "011";
+							uc_sel_ula_entrada_A    <= '1';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+						when GOTO =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '0';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "10";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+						when BRA =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '0';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "01";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+						when BTFSS =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '0';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= uc_bit_is_set; 
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+						when BTFSC =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '0';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= not uc_bit_is_set;
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+						when MOVIWk =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '1';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '1';
+						when MOVWIk =>
+							uc_ram_wr_en		    <= '1';
+							w_write                 <= '0';
+							uc_ula_op               <= "001";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '1';
+						when NOP =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '0';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+						when others =>
+							uc_ram_wr_en		    <= '0';
+							w_write                 <= '0';
+							uc_ula_op               <= "000";
+							uc_sel_ula_entrada_A    <= '0';
+							uc_pc_sel               <= "00";
+							skip_next_instr         <= '0';
+							fsr_write 				<= '0';
+							uc_sel_ram_address		<= '0';
+					end case; 
+
+					uc_pc_update 			<= '0';
+					uc_InstrReg_update 		<= '0';
+					uc_Ram_update	 		<= '0';
+					uc_Acumulador_update 	<= '0';
+					uc_FSR_update 			<= '0';
+					--uc_estado <= estado_s;
+					skip_this_instr 		<= skip_next_instr;
+				when "10" =>
+					uc_pc_update 			<= '0';
+					uc_InstrReg_update 		<= '0';
+					uc_Ram_update 			<= uc_ram_wr_en;
+					uc_Acumulador_update 	<= w_write;
+					uc_FSR_update 			<= fsr_write;
+
+					--uc_estado 				<= estado_s;
+                    --skip_this_instr 		<= skip_next_instr;
+                    --skip_next_instr 		<= '0';
+				when others =>
+					uc_pc_update 			<= '0';
+					uc_InstrReg_update 		<= '0';
+					uc_Ram_update 			<= '0';
+					uc_Acumulador_update 	<= '0';
+					uc_FSR_update 			<= '0';
+					--uc_estado <= estado_s;
+			end case;
+	end process;
 
 
--- Para essa soma com 0 estava pensando
---	Como o PIC tem acumulador e so usa uma das saidas do registradro, da para deixar
---	O reg 0, que tem valor 0, em um mux com a outra saida.
+uc_estado <= estado_s;
 
-	-- Seleciona a operação da ula. Sequencia: MOVLW, MOVWF, MOVF, ADDWF, SUBLW, GOTO
-	uc_ula_op	<=	"00" when opcode_1 = "11" AND opcode_2 = "0000" else
-					"00" when opcode_1 = "00" AND opcode_2 = "0000" else
-					"00" when opcode_1 = "00" AND opcode_2 = "1000" else
-					"00" when opcode_1 = "00" AND opcode_2 = "0111" else
-					"01" when opcode_1 = "11" AND opcode_2 = "1100" else
-					"00" when opcode_1 = "10" AND campo = '1' else
-					"00";
 
-	-- Seleciona o registrador com valor 0 para MOVLW, MOVWF, MOVF, GOTO					
-	uc_sel_ula_entrada_A <=	"00" when opcode_1 = "11" AND opcode_2 = "0000" else
-							"00" when opcode_1 = "00" AND opcode_2 = "0000" else
-							"00" when opcode_1 = "00" AND opcode_2 = "1000" else
-							"00" when opcode_1 = "10" AND campo = '1' else
-							"10" when opcode_1 = "11" AND opcode_2 = "1100" else
-							"01";
-
-	-- Quando GOTO
-	uc_jump <=	'1' when opcode_1 = "10" AND campo_d = '1' else
-				'0';
-
--- mudar isso depois para um mux externo
-	
-
-	-- Fetch
-	uc_pc_update <= '1' when estado_s = "10" else
-				 	'0';
-
-	-- Decode
-	uc_Banco_update <= 	uc_reg_wr_en when estado_s = "00" else
-						'0';
-
-	-- Execute
-	uc_Acumulador_update <= uc_w_write when estado_s = "01" else
-							'0';
-	
-	uc_estado <= estado_s;
-				 
 end architecture;

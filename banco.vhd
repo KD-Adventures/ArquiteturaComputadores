@@ -7,13 +7,11 @@ entity banco is
  	port (
 			clk 			: in std_logic;
 			rst 			: in std_logic;
-			write_enable 	: in std_logic;
-			sel_regs_1 		: in unsigned (2 downto 0);
-			sel_regs_2 		: in unsigned (2 downto 0);
-			sel_write 		: in unsigned (2 downto 0);
-			write_data 		: in unsigned (15 downto 0);
-			read_data1		: out unsigned (15 downto 0);
-			read_data2 		: out unsigned (15 downto 0)
+			bc_write_enable : in std_logic;
+			bc_sel_reg 		: in unsigned (2 downto 0);
+			bc_sel_write 	: in unsigned (2 downto 0);
+			bc_write_data 	: in unsigned (15 downto 0);
+			bc_read_data	: out unsigned (15 downto 0)
 	);	
 end entity ; -- banco
 
@@ -38,13 +36,13 @@ architecture a_banco of banco is
 begin
 
 	demux_saida0_reg0_wr_en <=  '0';
-	demux_saida1_reg1_wr_en <=	write_enable when sel_write = "001" else '0';
-	demux_saida2_reg2_wr_en <=	write_enable when sel_write = "010" else '0';
-	demux_saida3_reg3_wr_en <=	write_enable when sel_write = "011" else '0';
-	demux_saida4_reg4_wr_en <=	write_enable when sel_write = "100" else '0';
-	demux_saida5_reg5_wr_en <=	write_enable when sel_write = "101" else '0';
-	demux_saida6_reg6_wr_en <=	write_enable when sel_write = "110" else '0';
-	demux_saida7_reg7_wr_en <=	write_enable when sel_write = "111" else '0';
+	demux_saida1_reg1_wr_en <=	bc_write_enable when bc_sel_write = "001" else '0';
+	demux_saida2_reg2_wr_en <=	bc_write_enable when bc_sel_write = "010" else '0';
+	demux_saida3_reg3_wr_en <=	bc_write_enable when bc_sel_write = "011" else '0';
+	demux_saida4_reg4_wr_en <=	bc_write_enable when bc_sel_write = "100" else '0';
+	demux_saida5_reg5_wr_en <=	bc_write_enable when bc_sel_write = "101" else '0';
+	demux_saida6_reg6_wr_en <=	bc_write_enable when bc_sel_write = "110" else '0';
+	demux_saida7_reg7_wr_en <=	bc_write_enable when bc_sel_write = "111" else '0';
 
 	reg0: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
@@ -56,70 +54,61 @@ begin
 	reg1: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
 								wr_en 		=> demux_saida1_reg1_wr_en, 
-								data_in 	=> write_data, 
+								data_in 	=> bc_write_data, 
 								data_out 	=> data_out_1
 							);
 	
 	reg2: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
 								wr_en 		=> demux_saida2_reg2_wr_en, 
-								data_in 	=> write_data, 
+								data_in 	=> bc_write_data, 
 								data_out 	=> data_out_2
 							);
 
 	reg3: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
 								wr_en 		=> demux_saida3_reg3_wr_en, 
-								data_in 	=> write_data, 
+								data_in 	=> bc_write_data, 
 								data_out 	=> data_out_3
 							);
 
 	reg4: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
 								wr_en 		=> demux_saida4_reg4_wr_en, 
-								data_in 	=> write_data, 
+								data_in 	=> bc_write_data, 
 								data_out 	=> data_out_4
 							);
 
 	reg5: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
 								wr_en 		=> demux_saida5_reg5_wr_en, 
-								data_in 	=> write_data, 
+								data_in 	=> bc_write_data, 
 								data_out 	=> data_out_5
 							);
 	
 	reg6: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
 								wr_en 		=> demux_saida6_reg6_wr_en, 
-								data_in 	=> write_data, 
+								data_in 	=> bc_write_data, 
 								data_out 	=> data_out_6
 							);
 	
 	reg7: reg16bits port map(	clk 		=> clk, 
 								rst 		=> rst, 
 								wr_en 		=> demux_saida7_reg7_wr_en, 
-								data_in 	=> write_data, 
+								data_in 	=> bc_write_data, 
 								data_out 	=> data_out_7
 							);
 
-	read_data1 <= 	data_out_0 when sel_regs_1 = "000" else
-					data_out_1 when sel_regs_1 = "001" else
-					data_out_2 when sel_regs_1 = "010" else
-					data_out_3 when sel_regs_1 = "011" else
-					data_out_4 when sel_regs_1 = "100" else
-					data_out_5 when sel_regs_1 = "101" else
-					data_out_6 when sel_regs_1 = "110" else
-					data_out_7 when sel_regs_1 = "111" else
-					x"0000";
+	bc_read_data <= 	data_out_0 when bc_sel_reg = "000" else
+						data_out_1 when bc_sel_reg = "001" else
+						data_out_2 when bc_sel_reg = "010" else
+						data_out_3 when bc_sel_reg = "011" else
+						data_out_4 when bc_sel_reg = "100" else
+						data_out_5 when bc_sel_reg = "101" else
+						data_out_6 when bc_sel_reg = "110" else
+						data_out_7 when bc_sel_reg = "111" else
+						x"0000";
 
-	read_data2 <= 	data_out_0 when sel_regs_2 = "000" else
-					data_out_1 when sel_regs_2 = "001" else
-					data_out_2 when sel_regs_2 = "010" else
-					data_out_3 when sel_regs_2 = "011" else
-					data_out_4 when sel_regs_2 = "100" else
-					data_out_5 when sel_regs_2 = "101" else
-					data_out_6 when sel_regs_2 = "110" else
-					data_out_7 when sel_regs_2 = "111" else
-					x"0000";
 
 end architecture ; -- a_banco

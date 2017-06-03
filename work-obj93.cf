@@ -1,28 +1,31 @@
 v 4
-file . "processador_tb.vhd" "4c8b91751c286a0ddd499e4c16907a20c8c8e629" "20170603183326.854":
-  entity processador_tb at 1( 0) + 0 on 27;
-  architecture a_processador_tb of processador_tb at 8( 115) + 0 on 28;
-file . "UC.vhd" "91570d036a66697325748dc8f50dcb78dab60f8c" "20170603183326.651":
-  entity uc at 1( 0) + 0 on 23;
-  architecture a_uc of uc at 24( 694) + 0 on 24;
-file . "ULA.vhd" "112f7d9be43eac0438cfa55e06a7012ba3913244" "20170603183326.564":
-  entity ula at 1( 0) + 0 on 19;
-  architecture a_ula of ula at 31( 884) + 0 on 20;
-file . "maquina_estados.vhd" "71752f4e0810295fabd6b75cf504102922c90cd2" "20170603183326.515":
-  entity maquina_estados at 1( 0) + 0 on 15;
-  architecture a_maquina_estados of maquina_estados at 13( 209) + 0 on 16;
-file . "reg16bits.vhd" "53a8eacaaa11786c8a6b6e377512d60066872b15" "20170603183326.390":
-  entity reg16bits at 1( 0) + 0 on 11;
-  architecture a_reg16bits of reg16bits at 15( 275) + 0 on 12;
-file . "banco.vhd" "ab8c1f3b08108225b20df921f69aeba0dc9637af" "20170603183326.426":
-  entity banco at 1( 0) + 0 on 13;
-  architecture a_banco of banco at 19( 393) + 0 on 14;
-file . "instructionReg.vhd" "a5464dd86b5009324ca5e764c83176b5f34acf35" "20170603183326.541":
-  entity instructionreg at 1( 0) + 0 on 17;
-  architecture a_instructionreg of instructionreg at 15( 280) + 0 on 18;
-file . "ROM.vhd" "3442751040fe6088bc10d2f72b592b8cca2466e7" "20170603183326.627":
-  entity rom at 1( 0) + 0 on 21;
-  architecture a_rom of rom at 18( 409) + 0 on 22;
-file . "processador.vhd" "ea4ebb8e5eff6e0803fbcaf42e9a234760b74790" "20170603183326.755":
-  entity processador at 1( 0) + 0 on 25;
-  architecture a_processador of processador at 21( 536) + 0 on 26;
+file . "PC.vhd" "95d3472b0cafc49008517117580761bc928a07a2" "20170603183837.910":
+  entity pc at 1( 0) + 0 on 75;
+  architecture a_pc of pc at 16( 420) + 0 on 76;
+file . "processador_tb.vhd" "4c8b91751c286a0ddd499e4c16907a20c8c8e629" "20170603183838.179":
+  entity processador_tb at 1( 0) + 0 on 83;
+  architecture a_processador_tb of processador_tb at 8( 115) + 0 on 84;
+file . "UC.vhd" "91570d036a66697325748dc8f50dcb78dab60f8c" "20170603183837.975":
+  entity uc at 1( 0) + 0 on 79;
+  architecture a_uc of uc at 24( 694) + 0 on 80;
+file . "ULA.vhd" "112f7d9be43eac0438cfa55e06a7012ba3913244" "20170603183837.833":
+  entity ula at 1( 0) + 0 on 73;
+  architecture a_ula of ula at 31( 884) + 0 on 74;
+file . "maquina_estados.vhd" "71752f4e0810295fabd6b75cf504102922c90cd2" "20170603183837.780":
+  entity maquina_estados at 1( 0) + 0 on 69;
+  architecture a_maquina_estados of maquina_estados at 13( 209) + 0 on 70;
+file . "reg16bits.vhd" "53a8eacaaa11786c8a6b6e377512d60066872b15" "20170603183837.659":
+  entity reg16bits at 1( 0) + 0 on 65;
+  architecture a_reg16bits of reg16bits at 15( 275) + 0 on 66;
+file . "banco.vhd" "ab8c1f3b08108225b20df921f69aeba0dc9637af" "20170603183837.694":
+  entity banco at 1( 0) + 0 on 67;
+  architecture a_banco of banco at 19( 393) + 0 on 68;
+file . "instructionReg.vhd" "a5464dd86b5009324ca5e764c83176b5f34acf35" "20170603183837.805":
+  entity instructionreg at 1( 0) + 0 on 71;
+  architecture a_instructionreg of instructionreg at 15( 280) + 0 on 72;
+file . "ROM.vhd" "3442751040fe6088bc10d2f72b592b8cca2466e7" "20170603183837.952":
+  entity rom at 1( 0) + 0 on 77;
+  architecture a_rom of rom at 18( 409) + 0 on 78;
+file . "processador.vhd" "ea4ebb8e5eff6e0803fbcaf42e9a234760b74790" "20170603183838.080":
+  entity processador at 1( 0) + 0 on 81;
+  architecture a_processador of processador at 21( 536) + 0 on 82;

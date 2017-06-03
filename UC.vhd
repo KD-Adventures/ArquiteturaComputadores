@@ -140,7 +140,7 @@ begin
 						BTFSS 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "11"			else
 						BTFSC 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "10"			else
 						MOVIWk	when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '0' else
-						MOVWIk when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '1' else
+						MOVWIk  when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '1' else
 						NOP;
 
 	fsr_select <= 	'1' when uc_instruction (7 downto 0) = B"1000_0000" else
@@ -155,7 +155,7 @@ begin
 					uc_Ram_update 			<= '0';
 					uc_Acumulador_update 	<= '0';
 					uc_FSR_update 			<= '0';
-					skip_this_instr 		<= '0';
+					skip_this_instr 		<= skip_next_instr;
 				when "01" =>
 
 					case instruction is
@@ -282,15 +282,13 @@ begin
 					uc_InstrReg_update 		<= '0';
 					uc_Ram_update	 		<= '0';
 					uc_Acumulador_update 	<= '0';
-					uc_FSR_update 			<= '0';
-					skip_this_instr 		<= skip_next_instr;					
+					uc_FSR_update 			<= '0';					
 				when "10" =>
 					uc_pc_update 			<= '0';
 					uc_InstrReg_update 		<= '0';
 					uc_Ram_update 			<= uc_ram_wr_en;
 					uc_Acumulador_update 	<= w_write;
 					uc_FSR_update 			<= fsr_write;
-                    --skip_this_instr 		<= skip_next_instr;
 				when others =>
 					uc_pc_update 			<= '0';
 					uc_InstrReg_update 		<= '0';

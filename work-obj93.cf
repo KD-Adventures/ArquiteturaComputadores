@@ -1,0 +1,34 @@
+v 4
+file . "processador.vhd" "e71655988f6be77d0e2be42c260d8bb50ce031cc" "20170603191144.977":
+  entity processador at 1( 0) + 0 on 95;
+  architecture a_processador of processador at 21( 536) + 0 on 96;
+file . "ROM.vhd" "31b90fd6150fa42192fe35c90d7652c99a96ace1" "20170603191144.846":
+  entity rom at 1( 0) + 0 on 91;
+  architecture a_rom of rom at 18( 409) + 0 on 92;
+file . "ULA.vhd" "112f7d9be43eac0438cfa55e06a7012ba3913244" "20170603191144.743":
+  entity ula at 1( 0) + 0 on 87;
+  architecture a_ula of ula at 31( 884) + 0 on 88;
+file . "maquina_estados.vhd" "71752f4e0810295fabd6b75cf504102922c90cd2" "20170603191144.685":
+  entity maquina_estados at 1( 0) + 0 on 83;
+  architecture a_maquina_estados of maquina_estados at 13( 209) + 0 on 84;
+file . "reg16bits.vhd" "5d8fff77985d313e716f29321852ec133e0ff13f" "20170603191144.611":
+  entity reg16bits at 1( 0) + 0 on 79;
+  architecture a_reg16bits of reg16bits at 15( 275) + 0 on 80;
+file . "fsrReg.vhd" "edfc4311131f6440df05096f26d31add249d0a1f" "20170603191144.575":
+  entity fsrreg at 1( 0) + 0 on 77;
+  architecture a_fsrreg of fsrreg at 15( 270) + 0 on 78;
+file . "RAM.vhd" "1c8f84a797f8f13dd33c698ce0f7f16760ef6508" "20170603191144.645":
+  entity ram at 1( 0) + 0 on 81;
+  architecture a_ram of ram at 16( 304) + 0 on 82;
+file . "instructionReg.vhd" "a5464dd86b5009324ca5e764c83176b5f34acf35" "20170603191144.716":
+  entity instructionreg at 1( 0) + 0 on 85;
+  architecture a_instructionreg of instructionreg at 15( 280) + 0 on 86;
+file . "PC.vhd" "95d3472b0cafc49008517117580761bc928a07a2" "20170603191144.806":
+  entity pc at 1( 0) + 0 on 89;
+  architecture a_pc of pc at 16( 420) + 0 on 90;
+file . "UC.vhd" "a68f4f31804aec1c01f170a6b678d50acfd24ac3" "20170603191144.870":
+  entity uc at 1( 0) + 0 on 93;
+  architecture a_uc of uc at 24( 694) + 0 on 94;
+file . "processador_tb.vhd" "4c8b91751c286a0ddd499e4c16907a20c8c8e629" "20170603191145.077":
+  entity processador_tb at 1( 0) + 0 on 97;
+  architecture a_processador_tb of processador_tb at 8( 115) + 0 on 98;

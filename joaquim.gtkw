@@ -1,0 +1,65 @@
+[*]
+[*] GTKWave Analyzer v3.3.66 (w)1999-2015 BSI
+[*] Thu May 25 20:13:59 2017
+[*]
+[dumpfile] "/mnt/Documentos/OneDrive/Estudos/UTFPR/5-QuintoPeriodo/Arquitetura/lab6-modificado/processador.ghw"
+[dumpfile_mtime] "Thu May 25 20:11:09 2017"
+[dumpfile_size] 23993
+[savefile] "/mnt/Documentos/OneDrive/Estudos/UTFPR/5-QuintoPeriodo/Arquitetura/lab6-modificado/joaquim.gtkw"
+[timestart] 0
+[size] 1920 1047
+[pos] -1 -1
+*-26.420446 176900000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.processador_tb.
+[treeopen] top.processador_tb.uut.
+[treeopen] top.processador_tb.uut.pc0.
+[treeopen] top.processador_tb.uut.pc0.reg.
+[sst_width] 295
+[signals_width] 284
+[sst_expanded] 1
+[sst_vpaned_height] 298
+@28
+top.processador_tb.uut.clk
+top.processador_tb.uut.rst
+#{top.processador_tb.estado[1:0]} top.processador_tb.estado[1] top.processador_tb.estado[0]
+@22
+#{top.processador_tb.pc[15:0]} top.processador_tb.pc[15] top.processador_tb.pc[14] top.processador_tb.pc[13] top.processador_tb.pc[12] top.processador_tb.pc[11] top.processador_tb.pc[10] top.processador_tb.pc[9] top.processador_tb.pc[8] top.processador_tb.pc[7] top.processador_tb.pc[6] top.processador_tb.pc[5] top.processador_tb.pc[4] top.processador_tb.pc[3] top.processador_tb.pc[2] top.processador_tb.pc[1] top.processador_tb.pc[0]
+@c00022
+#{top.processador_tb.uut.reg_saida[15:0]} top.processador_tb.uut.reg_saida[15] top.processador_tb.uut.reg_saida[14] top.processador_tb.uut.reg_saida[13] top.processador_tb.uut.reg_saida[12] top.processador_tb.uut.reg_saida[11] top.processador_tb.uut.reg_saida[10] top.processador_tb.uut.reg_saida[9] top.processador_tb.uut.reg_saida[8] top.processador_tb.uut.reg_saida[7] top.processador_tb.uut.reg_saida[6] top.processador_tb.uut.reg_saida[5] top.processador_tb.uut.reg_saida[4] top.processador_tb.uut.reg_saida[3] top.processador_tb.uut.reg_saida[2] top.processador_tb.uut.reg_saida[1] top.processador_tb.uut.reg_saida[0]
+@28
+top.processador_tb.uut.reg_saida[15]
+top.processador_tb.uut.reg_saida[14]
+top.processador_tb.uut.reg_saida[13]
+top.processador_tb.uut.reg_saida[12]
+top.processador_tb.uut.reg_saida[11]
+top.processador_tb.uut.reg_saida[10]
+top.processador_tb.uut.reg_saida[9]
+top.processador_tb.uut.reg_saida[8]
+top.processador_tb.uut.reg_saida[7]
+top.processador_tb.uut.reg_saida[6]
+top.processador_tb.uut.reg_saida[5]
+top.processador_tb.uut.reg_saida[4]
+top.processador_tb.uut.reg_saida[3]
+top.processador_tb.uut.reg_saida[2]
+top.processador_tb.uut.reg_saida[1]
+top.processador_tb.uut.reg_saida[0]
+@1401200
+-group_end
+@c00024
+#{top.processador_tb.uut.sel_reg_s[2:0]} top.processador_tb.uut.sel_reg_s[2] top.processador_tb.uut.sel_reg_s[1] top.processador_tb.uut.sel_reg_s[0]
+@28
+top.processador_tb.uut.sel_reg_s[2]
+top.processador_tb.uut.sel_reg_s[1]
+top.processador_tb.uut.sel_reg_s[0]
+@1401200
+-group_end
+@23
+#{top.processador_tb.ula_saida[15:0]} top.processador_tb.ula_saida[15] top.processador_tb.ula_saida[14] top.processador_tb.ula_saida[13] top.processador_tb.ula_saida[12] top.processador_tb.ula_saida[11] top.processador_tb.ula_saida[10] top.processador_tb.ula_saida[9] top.processador_tb.ula_saida[8] top.processador_tb.ula_saida[7] top.processador_tb.ula_saida[6] top.processador_tb.ula_saida[5] top.processador_tb.ula_saida[4] top.processador_tb.ula_saida[3] top.processador_tb.ula_saida[2] top.processador_tb.ula_saida[1] top.processador_tb.ula_saida[0]
+@22
+#{top.processador_tb.w_saida[15:0]} top.processador_tb.w_saida[15] top.processador_tb.w_saida[14] top.processador_tb.w_saida[13] top.processador_tb.w_saida[12] top.processador_tb.w_saida[11] top.processador_tb.w_saida[10] top.processador_tb.w_saida[9] top.processador_tb.w_saida[8] top.processador_tb.w_saida[7] top.processador_tb.w_saida[6] top.processador_tb.w_saida[5] top.processador_tb.w_saida[4] top.processador_tb.w_saida[3] top.processador_tb.w_saida[2] top.processador_tb.w_saida[1] top.processador_tb.w_saida[0]
+@28
+top.processador_tb.ula_carry
+top.processador_tb.uut.uc0.instruction
+[pattern_trace] 1
+[pattern_trace] 0

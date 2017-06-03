@@ -1,0 +1,1 @@
+Para ver as formas de onda basta executar script.sh ou script.bat

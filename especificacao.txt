@@ -1,0 +1,157 @@
+No PIC existem 3 tipos de instruções, são elas:
+
+1 - Byte-oriented file register operations
+2 - Bit-oriented file register operations
+3 - Literal and Control operations
+
+
+
+O tipo 1 tem a seguinte codificação
+
+Do 13 ao 8 está o OPCODE
+no 7 está o campo d que indica o destino
+entre 6 e 0 está o campo f, o endereço do arquivo de registro (file register address)
+
+|13 - OPCODE - 8|7 - d - 7|6 - f - 0|
+
+
+
+Para o tipo 3, existem 8 tipos.
+Em nosso trabalho, é utilizado 3 tipos: A geral, a para o GOTO e a do NOP
+
+A geral é codificada da seguinte maneira:
+	
+Do 13 ao 8 está o OPCODE
+Do 7 ao 0 está o literal, k
+
+|13 - OPCODE - 8|7 - k - 0|
+
+
+Para o GOTO
+
+Do 13 ao 11 está o OPCODE
+de 10 ao 0 está o literal
+
+|13 - OPCODE - 11|10 - k - 0|
+
+
+A do NOP é composta somente de OPCODE
+Do 13 ao 0 está o OPCODE
+
+|13 - OPCODE - 0|
+
+
+
+As intruções utilizadas foram:
+
+Instrução:
+	MOVLW k
+Codificação: 
+	11 0000 kkkk kkkk
+Descrição:
+	Move o literal k para o Acumulador W
+
+
+Instrução:
+	MOVWF f
+Codificação: 
+	00 0000	1fff ffff
+Descrição:
+	Move o valor do Acumulador W para o registro f
+
+
+Instrução:
+	MOVF f,d
+Codificação:
+	00 1000 dfff ffff 
+Descrição:
+	Se d for igual a 0:
+		Move o valor do registrador f para o Acumulador W
+	Se d for igual a 1:
+		Move o valor do registrador f para o proprio f
+
+
+Instrução:
+	ADDWF f,d
+Codificação:
+	00 0111 dfff ffff
+Descrição:
+	Se d for igual a 0:
+		Soma o valor do registrador f com o Acumulador W e armazena em W
+	Se d for igual a 1:
+		Soma o valor do registrador f com o Acumulador W e armazena em f
+
+
+Instrução:
+	SUBLW k
+Codificação:
+	11 1100 kkkk kkkk 
+Descrição:
+	Subtrai o literal k do Acumulador W, k - (W)
+
+
+Instrução:
+	GOTO k
+Codificação:
+	10 1kkk kkkk kkkk
+Descrição:
+	Salto incondicional para o endereço 00 0kkk kkkk kkkk (no nosso processador)
+	No PIC, o endereço é complementado com o valor de um registrador especifico.
+
+
+Intrução:
+	NOP
+Codificação:
+	00 0000 0000 0000
+Descrição:
+	Nâo faz nada, utiliza um ciclo de clock fazendo nada.
+
+
+Instrução:
+	BRA k
+Codificação:
+	11 001k kkkk kkkk
+Descrição:
+	Salto relativo ao PC
+
+
+Instrução:
+	BCF f,b
+Codificação:
+	01 00bb bfff ffff
+Descrição:
+	Bit Clear, bit b do registrador f
+
+
+Instrução:
+	BSF f,b
+Codificação:
+	01 01bb bfff ffff
+Descrição:
+	Set Bit, bit b do registrador f
+
+
+Instrução:
+	BTFSC f,b
+Codificação:
+	01 10bb bfff ffff
+Descrição:
+	Testa bit f
+	Se o bit for 1
+		Executa a proxima instrução normalmente
+	Se o bit for 0
+		Descarta a proxima instrução, executando NOP no lugar
+
+
+Instrução:
+	BTFSS f,b
+Codificação:
+	01 11bb bfff ffff
+Descrição:
+	Testa bit f
+	Se o bit for 0
+		Executa a proxima instrução normalmente
+	Se o bit for 1
+		Descarta a proxima instrução, executando NOP no lugar
+
+

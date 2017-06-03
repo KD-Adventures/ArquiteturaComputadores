@@ -1,4 +1,3 @@
-ghdl -a fsrReg.vhd
 ghdl -a reg16bits.vhd
 ghdl -a RAM.vhd
 ghdl -a maquina_estados.vhd

@@ -13,18 +13,18 @@ entity fsrReg is
 end entity;
 
 architecture a_fsrReg of fsrReg is
-	signal registro: unsigned (6 downto 0);
+	signal fsr_registro: unsigned (6 downto 0);
 begin
 	process(clk,rst,wr_en) -- acionado se houver mudança em clk, rst ou wr_en
 	begin
 		if rst='1' then
-			registro <= B"000_0000";
+			fsr_registro <= B"000_0000";
 		elsif wr_en='1' then	
 			if rising_edge(clk) then
-				registro <= data_in;
+				fsr_registro <= data_in;
 			end if;
 		end if;
 	end process;
 
-	data_out <= registro; -- conexao direta, fora do processo
+	data_out <= fsr_registro; -- conexao direta, fora do processo
 end architecture;

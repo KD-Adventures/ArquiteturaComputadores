@@ -146,7 +146,7 @@ begin
 	fsr_select <= 	'1' when uc_instruction (7 downto 0) = B"1000_0000" else
 					'0';
 
-	process(estado_s, instruction)
+	process(estado_s, instruction, fsr_select, uc_bit_is_set)
 		begin
 			case estado_s is
 				when "00" =>
@@ -154,8 +154,8 @@ begin
 					uc_InstrReg_update 		<= '1';
 					uc_Ram_update 			<= '0';
 					uc_Acumulador_update 	<= '0';
-					--uc_estado <= estado_s;
-					--skip_next_instr 		<= '0';
+					uc_FSR_update 			<= '0';
+					skip_this_instr 		<= '0';
 				when "01" =>
 
 					case instruction is
@@ -175,7 +175,7 @@ begin
 							uc_sel_ula_entrada_A    <= '0';
 							uc_pc_sel               <= "00";           
 							skip_next_instr         <= '0';
-							fsr_write 				<= fsr_select;
+							fsr_write 				<= fsr_select; --
 							uc_sel_ram_address		<= '0';
 						when MOVF =>
 							uc_ram_wr_en		    <= field_d;
@@ -283,25 +283,20 @@ begin
 					uc_Ram_update	 		<= '0';
 					uc_Acumulador_update 	<= '0';
 					uc_FSR_update 			<= '0';
-					--uc_estado <= estado_s;
-					skip_this_instr 		<= skip_next_instr;
+					skip_this_instr 		<= skip_next_instr;					
 				when "10" =>
 					uc_pc_update 			<= '0';
 					uc_InstrReg_update 		<= '0';
 					uc_Ram_update 			<= uc_ram_wr_en;
 					uc_Acumulador_update 	<= w_write;
 					uc_FSR_update 			<= fsr_write;
-
-					--uc_estado 				<= estado_s;
                     --skip_this_instr 		<= skip_next_instr;
-                    --skip_next_instr 		<= '0';
 				when others =>
 					uc_pc_update 			<= '0';
 					uc_InstrReg_update 		<= '0';
 					uc_Ram_update 			<= '0';
 					uc_Acumulador_update 	<= '0';
 					uc_FSR_update 			<= '0';
-					--uc_estado <= estado_s;
 			end case;
 	end process;
 

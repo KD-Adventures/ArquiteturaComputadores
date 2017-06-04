@@ -43,7 +43,7 @@ architecture a_UC of UC is
 	signal field_d			: std_logic;
 	signal Z_affected	 	: std_logic;
 	signal C_affected		: std_logic;
-    signal instruction      : INSTRUCTION_LIST;
+    signal instruction 		: INSTRUCTION_LIST;
     signal skip_this_instr  : std_logic;
     signal skip_next_instr  : std_logic;
     signal fsr_write 		: std_logic;
@@ -129,19 +129,19 @@ begin
 
 -- Determina a instrução
 
-    instruction     <=  NOP     when skip_this_instr = '1' else
-    					MOVLW   when opcode_1 = "11" AND opcode_2 = "0000"                              else
-						MOVWF   when opcode_1 = "00" AND opcode_2 = "0000" and uc_instruction(7) = '1'  else  
-						MOVF    when opcode_1 = "00" AND opcode_2 = "1000"                              else
-						ADDWF   when opcode_1 = "00" AND opcode_2 = "0111"                              else
-						SUBLW   when opcode_1 = "11" AND opcode_2 = "1100"                              else
-						GOTO    when opcode_1 = "10" AND uc_instruction(11) = '1'                       else
-						BRA     when opcode_1 = "11" AND uc_instruction(11 downto 9) = "001"            else
-						BTFSS 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "11"			else
-						BTFSC 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "10"			else
-						MOVIWk	when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '0' else
-						MOVWIk  when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '1' else
-						NOP;
+    instruction <= 	NOP     when skip_this_instr = '1' else
+    				MOVLW   when opcode_1 = "11" AND opcode_2 = "0000"                              else
+					MOVWF   when opcode_1 = "00" AND opcode_2 = "0000" and uc_instruction(7) = '1'  else  
+					MOVF    when opcode_1 = "00" AND opcode_2 = "1000"                              else
+					ADDWF   when opcode_1 = "00" AND opcode_2 = "0111"                              else
+					SUBLW   when opcode_1 = "11" AND opcode_2 = "1100"                              else
+					GOTO    when opcode_1 = "10" AND uc_instruction(11) = '1'                       else
+					BRA     when opcode_1 = "11" AND uc_instruction(11 downto 9) = "001"            else
+					BTFSS 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "11"			else
+					BTFSC 	when opcode_1 = "01" AND uc_instruction(11 downto 10) = "10"			else
+					MOVIWk	when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '0' else
+					MOVWIk  when opcode_1 = "11" AND opcode_2 = "1111" AND uc_instruction (7) = '1' else
+					NOP;
 
 	fsr_select <= 	'1' when uc_instruction (7 downto 0) = B"1000_0000" else
 					'0';
@@ -156,8 +156,8 @@ begin
 					uc_Acumulador_update 	<= '0';
 					uc_FSR_update 			<= '0';
 					skip_this_instr 		<= skip_next_instr;
+					
 				when "01" =>
-
 					case instruction is
 						when MOVLW =>
 							uc_ram_wr_en		    <= '0';

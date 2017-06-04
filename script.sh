@@ -10,5 +10,5 @@ ghdl -a UC.vhd
 ghdl -a processador.vhd
 ghdl -a processador_tb.vhd
 ghdl -e processador_tb
-ghdl -r processador_tb --wave=processador.ghw --stop-time=2500ns
+ghdl -r processador_tb --wave=processador.ghw --stop-time=8000ns
 gtkwave processador.ghw -ajoaquim.gtkw

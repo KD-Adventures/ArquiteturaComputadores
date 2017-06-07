@@ -70,12 +70,9 @@ begin
 	--GOTO k 		10 1kkk kkkk kkkk
 	--BRA k 		11 001k kkkk kkkk
 	--NOP			00 0000 0000 0000
+	--MOVWI k[n] 	11 1111 1nkk kkkk
+	--MOVIW k[n] 	11 1111 0nkk kkkk
 
---Não implementadas
-	--BRW 			00 0000 0000 1011
-	--BCF f,b 		01 00bb bfff ffff
-	--BSF f,b 		01 01bb bfff ffff
-	
 --	
 
 -- Sinais utilizados por cada instrução

@@ -23,10 +23,10 @@ architecture a_processador_tb of processador_tb is
 			);	
 	end component;
 
-	signal clk, rst, ula_zero, ula_maior, ula_carry : std_logic;
-	signal PC, reg, ula_saida, w_saida : unsigned (15 downto 0);
-	signal estado : unsigned (1 downto 0);
-	signal instruction : unsigned (13 downto 0);
+	signal clk, rst, ula_zero, ula_maior, ula_carry 	: std_logic;
+	signal PC, reg, ula_saida, w_saida 				 	: unsigned (15 downto 0);
+	signal estado 										: unsigned (1 downto 0);
+	signal instruction 									: unsigned (13 downto 0);
 
 	begin
 
